@@ -12,9 +12,9 @@ int user_exists(const char *username) {
     FILE *fp = fopen(USER_FILE, "r");
     if (!fp) return 0;
 
-    char line[100], user[50], pass[50];
+    char line[100], name[50], user[50], pass[50];
     while (fgets(line, sizeof(line), fp)) {
-        sscanf(line, "%[^,],%s", user, pass);
+        sscanf(line, "%[^,],%[^,],%s", name, user, pass);
         if (strcmp(user, username) == 0) {
             fclose(fp);
             return 1;
@@ -26,7 +26,7 @@ int user_exists(const char *username) {
 
 int register_user(const char *name, const char *username, const char *password) {
     if (user_exists(username)) {
-        printf("❌ User '%s' already exists.\n", username);
+        printf("User '%s' already exists.\n", username);
         return 0;
     }
 
@@ -34,11 +34,11 @@ int register_user(const char *name, const char *username, const char *password) 
     FILE *bfp = fopen(BALANCE_FILE, "a");
 
     if (!ufp || !bfp) {
-        printf("❌ Error opening file.\n");
+        printf("Error opening file.\n");
         return 0;
     }
 
-    fprintf(ufp, "%s,%s,%s\n",name, username, password);
+    fprintf(ufp, "%s,%s,%s\n", name, username, password);
     fprintf(bfp, "%s,0.0\n", username);
 
     fclose(ufp);
@@ -65,7 +65,6 @@ int authenticate_user(const char *username, const char *password) {
     return 0;
 }
 
-
 void get_name(const char *username, char *name_out) {
     FILE *fp = fopen(USER_FILE, "r");
     if (!fp) {
@@ -86,8 +85,6 @@ void get_name(const char *username, char *name_out) {
     strcpy(name_out, "Unknown");
     fclose(fp);
 }
-
-
 
 float get_balance() {
     FILE *fp = fopen(BALANCE_FILE, "r");
@@ -181,3 +178,4 @@ int withdraw(float amount) {
     printf("Withdrawal failed.\n");
     return 0;
 }
+

@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "vault.h"
+#include "transaction.h"
 
 int main() {
     int choice;
@@ -33,16 +34,22 @@ int main() {
                 printf("Login successful. Welcome, %s!\n", name);
 
                 while (1) {
-                    printf("\n1. Check Balance\n2. Deposit\n3. Withdraw\n4. Logout\nChoose: ");
+                    printf("\n1. Send Money\n2. Check Balance\n3. Deposit\n4. Withdraw\n5. Logout\nChoose: ");
                     scanf("%d", &choice);
 
                     if (choice == 1) {
-                        printf("Your balance: %.2f\n", get_balance());
+                        printf("Enter Reciver Username: ");
+                        scanf("%s", username);
+                        printf("Enter amount to send: ");
+                        scanf("%f", &amount);
+                        send_money(username, amount);
                     } else if (choice == 2) {
+                        printf("Your balance: %.2f\n", get_balance());
+                    } else if (choice == 3) {
                         printf("Enter amount to deposit: ");
                         scanf("%f", &amount);
                         deposit(amount);
-                    } else if (choice == 3) {
+                    } else if (choice == 4) {
                         printf("Enter amount to withdraw: ");
                         scanf("%f", &amount);
                         withdraw(amount);
