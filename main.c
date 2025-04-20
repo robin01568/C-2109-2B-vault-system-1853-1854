@@ -29,7 +29,8 @@ int main() {
             scanf("%s", password);
 
             if (authenticate_user(username, password)) {
-                printf("Login successful. Welcome, %s!\n", global_username);
+                get_name(global_username, name);
+                printf("Login successful. Welcome, %s!\n", name);
 
                 while (1) {
                     printf("\n1. Check Balance\n2. Deposit\n3. Withdraw\n4. Logout\nChoose: ");
@@ -46,13 +47,13 @@ int main() {
                         scanf("%f", &amount);
                         withdraw(amount);
                     } else {
-                        printf("🔒 Logged out.\n");
+                        printf("Logged out.\n");
                         strcpy(global_username, ""); // Clear session
                         break;
                     }
                 }
             } else {
-                printf("❌ Invalid username or password.\n");
+                printf("Invalid username or password.\n");
             }
 
         } else {
