@@ -1,10 +1,59 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "transaction.h"
+#include <time.h>
 #include "vault.h" // For global_username and user_exists()
 
 #define BALANCE_FILE "balances.csv"
+
+// This is for transaction history start
+void log_transaction(const char *type, float amount) {
+    char file_name[100];
+    snprintf(file_name, sizeof(file_name), "%s.csv", global_username);  // format the filename
+
+    FILE *fp = fopen(file_name, "a");
+    if (!fp) {
+        printf("Could not log transaction.\n");
+        return;
+    }
+
+    time_t now = time(NULL);
+    struct tm *t = localtime(&now);
+    char timestamp[30];
+    strftime(timestamp, sizeof(timestamp), "%Y-%m-%d %H:%M:%S", t);
+
+    fprintf(fp, "%s,%s,%.2f,%s\n", global_username, type, amount, timestamp);
+    fclose(fp);
+}
+
+void show_transaction_history() {
+    char file_name[100];
+    snprintf(file_name, sizeof(file_name), "%s.csv", global_username);  // user-specific file
+
+    FILE *fp = fopen(file_name, "r");
+    if (!fp) {
+        printf("No transaction history found for user '%s'.\n", global_username);
+        return;
+    }
+
+    char line[150], user[50], type[20], timestamp[30];
+    float amount;
+
+    printf("Transaction History for %s:\n", global_username);
+    printf("----------------------------------------\n");
+    printf("Date & Time           | Type     | Amount\n");
+    printf("----------------------------------------\n");
+
+    while (fgets(line, sizeof(line), fp)) {
+        sscanf(line, "%[^,],%[^,],%f,%[^\n]", user, type, &amount, timestamp);
+        printf("%-20s | %-8s | %8.2f\n", timestamp, type, amount);
+    }
+
+    fclose(fp);
+}
+
+// This is for transaction history end
+
 
 int update_send_money_balance(float new_balance, const char *username) {
     FILE *fp = fopen(BALANCE_FILE, "r");
@@ -89,5 +138,6 @@ void send_money(const char *receiver_username, float amount) {
 
     printf("Money sent successfully to %s.\n", receiver_username);
     printf("Your new balance is: %.2f\n", new_sender_balance);
+    log_transaction("Send Money", amount);
 }
 

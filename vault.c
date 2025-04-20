@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "vault.h"
+#include "transaction.h"
 
 #define USER_FILE "users.csv"
 #define BALANCE_FILE "balances.csv"
@@ -146,6 +146,7 @@ int deposit(float amount) {
 
     if (update_balance(bal + amount)) {
         printf("Deposit successful. New balance: %.2f\n", bal + amount);
+        log_transaction("Deposit", amount);
         return 1;
     }
 
@@ -172,6 +173,7 @@ int withdraw(float amount) {
 
     if (update_balance(bal - amount)) {
         printf("Withdrawal successful. New balance: %.2f\n", bal - amount);
+        log_transaction("Withdraw", amount);
         return 1;
     }
 

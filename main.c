@@ -34,7 +34,7 @@ int main() {
                 printf("Login successful. Welcome, %s!\n", name);
 
                 while (1) {
-                    printf("\n1. Send Money\n2. Check Balance\n3. Deposit\n4. Withdraw\n5. Logout\nChoose: ");
+                    printf("\n1. Send Money\n2. Check Balance\n3. Deposit\n4. Withdraw\n5. Check Transaction History\n6. Logout\nChoose: ");
                     scanf("%d", &choice);
 
                     if (choice == 1) {
@@ -53,6 +53,8 @@ int main() {
                         printf("Enter amount to withdraw: ");
                         scanf("%f", &amount);
                         withdraw(amount);
+                    } else if (choice == 5) {
+                        show_transaction_history();
                     } else {
                         printf("Logged out.\n");
                         strcpy(global_username, ""); // Clear session
