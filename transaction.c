@@ -113,7 +113,7 @@ void send_money(const char *receiver_username, float amount) {
         return;
     }
 
-    float sender_balance = get_balance(); // uses global_username internally
+    float sender_balance = get_balance(); // uses global_username
     if (sender_balance < amount) {
         printf("Insufficient balance.\n");
         return;

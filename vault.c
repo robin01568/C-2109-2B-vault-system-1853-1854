@@ -56,7 +56,7 @@ int authenticate_user(const char *username, const char *password) {
     while (fgets(line, sizeof(line), fp)) {
         sscanf(line, "%[^,],%[^,],%s",name, user, pass);
         if (strcmp(user, username) == 0 && strcmp(pass, password) == 0) {
-            strcpy(global_username, username); // Save to global variable
+            strcpy(global_username, username);
             fclose(fp);
             return 1;
         }

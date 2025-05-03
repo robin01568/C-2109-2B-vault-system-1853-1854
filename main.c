@@ -38,7 +38,7 @@ int main() {
                     scanf("%d", &choice);
 
                     if (choice == 1) {
-                        printf("Enter Reciver Username: ");
+                        printf("Enter reciver username: ");
                         scanf("%s", username);
                         printf("Enter amount to send: ");
                         scanf("%f", &amount);
